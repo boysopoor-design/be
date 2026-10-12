@@ -10,6 +10,7 @@ from app.routers.departments import router as departments_router
 from app.routers.tasks import router as tasks_router
 from app.routers.timelines import router as timeline_router
 from app.routers.reports import router as report_router
+from app.routers.event_plan_ai import router as event_plan_ai_router
 
 app = FastAPI(
     title="Mainstream Event Operating System",
