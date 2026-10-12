@@ -16,7 +16,16 @@ def build_plan(event, user_input=None):
     model=os.getenv("OLLAMA_MODEL", "qwen2.5:7b")
     try:
         import requests
-        response=requests.post(os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate"), json={"model":model,"prompt":prompt,"stream":False,"format":"json"}, timeout=90)
+        response = requests.post(
+    os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate"),
+    json={
+        "model": model,
+        "prompt": prompt,
+        "stream": False,
+        "format": "json"
+    },
+    timeout=(15, 300)
+)
         response.raise_for_status(); raw=response.json().get("response", "{}")
         result=json.loads(raw)
         source="ollama:"+model
