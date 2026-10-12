@@ -43,7 +43,7 @@ app.include_router(departments_router)
 app.include_router(tasks_router)
 app.include_router(timeline_router)
 app.include_router(report_router)
-
+app.include_router(event_plan_ai_router)
 
 @app.get("/")
 def root():
