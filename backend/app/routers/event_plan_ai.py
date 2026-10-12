@@ -20,10 +20,17 @@ def build_plan(event, user_input=None):
         response.raise_for_status(); raw=response.json().get("response", "{}")
         result=json.loads(raw)
         source="ollama:"+model
+    
     except Exception as exc:
-        # Do not silently present a static template as a real AI result.
-        raise HTTPException(status_code=503, detail="AI service is temporarily unavailable. Please check that Ollama is running and the configured model is installed, then try again.") from exc
-    return context, result, source
+        import logging
+        logging.getLogger(__name__).exception(
+            "Ollama generate-plan request failed"
+        )
+        raise HTTPException(
+            status_code=503,
+            detail="AI service is temporarily unavailable. Please check the backend logs."
+        ) from exc
+
 
 @router.post("/{event_id}/ai/generate-plan")
 def generate_event_plan(event_id:int, payload:dict|None=None, db:Session=Depends(get_db), current_user:User=Depends(get_current_user)):
